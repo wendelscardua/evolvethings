@@ -108,6 +108,10 @@ public class GeneticAlgorithm {
             return this.genome;
         }
 
+        public Value getGeneValue(Gene gene) {
+            return this.genome.get(gene.position);
+        }
+
         public double getFitness() {
             return this.fitness;
         }

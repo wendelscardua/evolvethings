@@ -9,7 +9,10 @@ package net.scardua.ga;
 public enum Gene {
     COLOR_RED("red", 0, GeneticAlgorithm.BinaryValue.class),
     COLOR_GREEN("green", 1, GeneticAlgorithm.BinaryValue.class),
-    COLOR_BLUE("blue", 2, GeneticAlgorithm.BinaryValue.class)
+    COLOR_BLUE("blue", 2, GeneticAlgorithm.BinaryValue.class),
+    POWER("power", 3, GeneticAlgorithm.FloatValue.class),
+    RESISTANCE("resistance", 4, GeneticAlgorithm.FloatValue.class),
+    LIFE("life", 5, GeneticAlgorithm.FloatValue.class)
     ;
 
     public final String name;
