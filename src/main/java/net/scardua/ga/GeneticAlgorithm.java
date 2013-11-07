@@ -1,7 +1,6 @@
 package net.scardua.ga;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 /**
@@ -145,23 +144,6 @@ public class GeneticAlgorithm {
                 sb.append("[").append(gene.name).append(":").append(this.genome.get(gene.position)).append("]");
             }
             return sb.append('(').append(this.fitness).append(')').toString();
-        }
-    }
-
-    public static enum Gene {
-        COLOR_RED("red", 0, BinaryValue.class),
-        COLOR_GREEN("green", 1, BinaryValue.class),
-        COLOR_BLUE("blue", 2, BinaryValue.class)
-        ;
-
-        private final String name;
-        private final int position;
-        private final Class<? extends Value> type;
-
-        Gene(String name, int position, Class<? extends Value> type) {
-            this.name = name;
-            this.position = position;
-            this.type = type;
         }
     }
 
