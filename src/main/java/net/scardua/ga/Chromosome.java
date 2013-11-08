@@ -15,7 +15,7 @@ public class Chromosome {
     double fitness = 0;
 
     public Chromosome(Chromosome original) {
-        for(Gene gene: Gene.values()) {
+        for(Genes.Gene gene: Genes.getInstance().values()) {
             Value originalValue = original.getGenome().get(gene.position);
             Value clonedValue = null;
             if (gene.type == BinaryValue.class) {
@@ -30,7 +30,7 @@ public class Chromosome {
     }
 
     public Chromosome() {
-        for(Gene gene: Gene.values()) {
+        for(Genes.Gene gene: Genes.getInstance().values()) {
             Value value = null;
             if (gene.type == BinaryValue.class) {
                 value = new BinaryValue();
@@ -51,7 +51,11 @@ public class Chromosome {
         return this.genome;
     }
 
-    public Value getGeneValue(Gene gene) {
+    public Value getGeneValue(String geneName) {
+        return this.getGeneValue(Genes.getInstance().getGene(geneName));
+    }
+
+    public Value getGeneValue(Genes.Gene gene) {
         return this.genome.get(gene.position);
     }
 
@@ -87,7 +91,7 @@ public class Chromosome {
 
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for(Gene gene : Gene.values()) {
+        for(Genes.Gene gene: Genes.getInstance().values()) {
             sb.append("[").append(gene.name).append(":").append(this.genome.get(gene.position)).append("]");
         }
         return sb.append('(').append(this.fitness).append(')').toString();

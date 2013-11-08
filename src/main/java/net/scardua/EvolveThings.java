@@ -1,8 +1,6 @@
 package net.scardua;
 
-import net.scardua.ga.Chromosome;
-import net.scardua.ga.Gene;
-import net.scardua.ga.GeneticAlgorithm;
+import net.scardua.ga.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,9 +13,20 @@ import java.util.Random;
  */
 public class EvolveThings
 {
+    enum MyGenes { RED, GREEN, BLUE, POWER, RESISTANCE, LIFE };
+
     public static void main( String[] args )
     {
         int maxSteps = 1000;
+
+        Genes.getInstance()
+                .addGene(MyGenes.RED.name(), BinaryValue.class)
+                .addGene(MyGenes.GREEN.name(), BinaryValue.class)
+                .addGene(MyGenes.BLUE.name(), BinaryValue.class)
+                .addGene(MyGenes.POWER.name(), FloatValue.class)
+                .addGene(MyGenes.RESISTANCE.name(), FloatValue.class)
+                .addGene(MyGenes.LIFE.name(), FloatValue.class);
+
         GeneticAlgorithm ga = new GeneticAlgorithm(100);
         Random random = new Random();
         for(int steps = 0; steps <= maxSteps; steps++) {
@@ -34,12 +43,12 @@ public class EvolveThings
             for(int i = 0; i < individuals.size(); i++) {
                 Chromosome chromosome = individuals.get(i);
                 K[i] = 0;
-                HP[i] = (int) (30 * chromosome.getGeneValue(Gene.LIFE).getFloatValue() + 30);
-                P[i] = (int) (5 * chromosome.getGeneValue(Gene.POWER).getFloatValue() + 5);
-                R[i] = (int) (5 * chromosome.getGeneValue(Gene.RESISTANCE).getFloatValue() + 5);
-                RGB[i] = chromosome.getGeneValue(Gene.COLOR_RED).getBinaryValue() * 4 +
-                         chromosome.getGeneValue(Gene.COLOR_GREEN).getBinaryValue() * 2 +
-                         chromosome.getGeneValue(Gene.COLOR_BLUE).getBinaryValue();
+                HP[i] = (int) (30 * chromosome.getGeneValue(MyGenes.LIFE.name()).getFloatValue() + 30);
+                P[i] = (int) (5 * chromosome.getGeneValue(MyGenes.POWER.name()).getFloatValue() + 5);
+                R[i] = (int) (5 * chromosome.getGeneValue(MyGenes.RESISTANCE.name()).getFloatValue() + 5);
+                RGB[i] = chromosome.getGeneValue(MyGenes.RED.name()).getBinaryValue() * 4 +
+                         chromosome.getGeneValue(MyGenes.GREEN.name()).getBinaryValue() * 2 +
+                         chromosome.getGeneValue(MyGenes.BLUE.name()).getBinaryValue();
                 HP[i] -= (P[i] + R[i]);
             }
 
