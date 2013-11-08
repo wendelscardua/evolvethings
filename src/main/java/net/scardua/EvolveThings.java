@@ -82,23 +82,23 @@ public class EvolveThings
                 if (leftPos != rightPos) {
                     if (RGB[leftPos] != RGB[rightPos]) {
                         if (P[leftPos] > R[rightPos]) {
-                            if ((RGB[leftPos] & 2) != 0)
+                            if (RGB[leftPos] == 2)
                                 HP[rightPos] -= P[leftPos] - R[rightPos];
                             else if (R[rightPos] == 0) {
                                 HP[rightPos] -= P[leftPos];
                             }
-                            if ((RGB[leftPos] & 1) != 0) HP[leftPos] += P[leftPos];
+                            if (RGB[leftPos] == 1) HP[leftPos] += P[leftPos];
                             if (HP[rightPos] <= 0) K[leftPos]++;
                             R[rightPos] = 0;
                         } else {
                             R[rightPos] -= P[leftPos];
                         }
 
-                        if ((RGB[leftPos] & 4) != 0 && (RGB[rightPos] & 4) == 0 && (R[rightPos] <= 0)) continue;
+                        if ((RGB[leftPos] == 4) && (RGB[rightPos] != 4) && (R[rightPos] <= 0)) continue;
 
                         if (P[rightPos] > R[leftPos]) {
                             HP[leftPos] -= P[rightPos] - R[leftPos];
-                            if ((RGB[rightPos] & 1) != 0) HP[rightPos] += P[rightPos];
+                            if (RGB[rightPos] == 1) HP[rightPos] += P[rightPos];
                             if (HP[leftPos] <= 0) K[rightPos]++;
                         } else {
                             R[leftPos] -= P[rightPos];
@@ -108,7 +108,7 @@ public class EvolveThings
             }
             for(int i = 0; i < individuals.size(); i++) {
                 Chromosome chromosome = individuals.get(i);
-                chromosome.setFitness(K[i] * 100 + HP[i] * 10);
+                chromosome.setFitness(K[i] * 100);
             }
         }
         ArrayList<Chromosome> chromosomes = ga.getChromosomes();
