@@ -13,7 +13,7 @@ import java.util.Random;
  */
 public class EvolveThings
 {
-    enum MyGenes { RED, GREEN, BLUE, POWER, RESISTANCE, LIFE };
+    enum MyGenes { RED, GREEN, BLUE, POWER, RESISTANCE, LIFE }
 
     public static void main( String[] args )
     {
@@ -27,7 +27,8 @@ public class EvolveThings
                 .addGene(MyGenes.RESISTANCE.name(), FloatValue.class)
                 .addGene(MyGenes.LIFE.name(), FloatValue.class);
 
-        GeneticAlgorithm ga = new GeneticAlgorithm(100);
+        int popSize = 100;
+        GeneticAlgorithm ga = new GeneticAlgorithm(popSize);
         Random random = new Random();
         for(int steps = 0; steps <= maxSteps; steps++) {
             if (steps > 0) {
@@ -70,17 +71,16 @@ public class EvolveThings
 
                 for(int i = 0; i < individuals.size(); i++) {
                     if (HP[i] > 0) leftPos--;
-                    if (leftPos <= 0) leftPos = i; break;
+                    if (leftPos <= 0) { leftPos = i; break; }
                 }
 
                 for(int i = 0; i < individuals.size(); i++) {
                     if (HP[i] > 0 && i != leftPos) rightPos--;
-                    if (rightPos <= 0) rightPos = i; break;
+                    if (rightPos <= 0) { rightPos = i; break; }
                 }
 
                 if (leftPos != rightPos) {
-                    if (RGB[leftPos] == RGB[rightPos]) {
-                    } else {
+                    if (RGB[leftPos] != RGB[rightPos]) {
                         if (P[leftPos] > R[rightPos]) {
                             if ((RGB[leftPos] & 2) != 0)
                                 HP[rightPos] -= P[leftPos] - R[rightPos];

@@ -11,7 +11,7 @@ import java.util.Random;
 * To change this template use File | Settings | File Templates.
 */
 public class Chromosome {
-    ArrayList<Value> genome = new ArrayList<Value>();
+    private ArrayList<Value> genome = new ArrayList<Value>();
     double fitness = 0;
 
     public Chromosome(Chromosome original) {
@@ -20,8 +20,6 @@ public class Chromosome {
             Value clonedValue = null;
             if (gene.type == BinaryValue.class) {
                 clonedValue = new BinaryValue(originalValue.getBinaryValue());
-            } else if (gene.type == IntegerValue.class) {
-                clonedValue = new IntegerValue(originalValue.getIntValue());
             } else if (gene.type == FloatValue.class) {
                 clonedValue = new FloatValue(originalValue.getFloatValue());
             }
@@ -34,8 +32,6 @@ public class Chromosome {
             Value value = null;
             if (gene.type == BinaryValue.class) {
                 value = new BinaryValue();
-            } else if (gene.type == IntegerValue.class) {
-                value = new IntegerValue();
             } else if (gene.type == FloatValue.class) {
                 value = new FloatValue();
             }
@@ -43,11 +39,11 @@ public class Chromosome {
         }
     }
 
-    public void setGenome(ArrayList<Value> newGenome) {
+    void setGenome(ArrayList<Value> newGenome) {
         this.genome = newGenome;
     }
 
-    public ArrayList<Value> getGenome() {
+    ArrayList<Value> getGenome() {
         return this.genome;
     }
 
@@ -55,7 +51,7 @@ public class Chromosome {
         return this.getGeneValue(Genes.getInstance().getGene(geneName));
     }
 
-    public Value getGeneValue(Genes.Gene gene) {
+    Value getGeneValue(Genes.Gene gene) {
         return this.genome.get(gene.position);
     }
 

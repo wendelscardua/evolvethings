@@ -13,8 +13,8 @@ public class GeneticAlgorithm {
 
     private final int numChromosomes;
     private ArrayList<Chromosome> chromosomes;
-    public static double mutationChance = 0.05;
-    private static double crossoverChance = 0.7;
+    public static final double mutationChance = 0.05;
+    private static final double crossoverChance = 0.7;
 
     public GeneticAlgorithm(int numChromosomes) {
         this.numChromosomes = numChromosomes;

@@ -29,7 +29,7 @@ public class EvolveThingsTest
     }
 
     /**
-     * Rigourous Test :-)
+     * Rigorous Test :-)
      */
     public void testApp()
     {

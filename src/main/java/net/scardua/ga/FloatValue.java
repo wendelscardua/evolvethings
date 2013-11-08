@@ -20,10 +20,6 @@ public class FloatValue extends Value {
         this.value = value;
     }
 
-    public double get() {
-        return this.value;
-    }
-
     public void mutate() {
         this.value += new Random().nextGaussian();
         if (this.value > 1.0) this.value = 1.0;

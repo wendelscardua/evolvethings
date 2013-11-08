@@ -22,7 +22,7 @@ public class Genes {
 
     private static final Genes instance = new Genes();
 
-    private LinkedHashMap<String, Gene> genes = new LinkedHashMap<String, Gene>();
+    private final LinkedHashMap<String, Gene> genes = new LinkedHashMap<String, Gene>();
 
     private Genes() {
 

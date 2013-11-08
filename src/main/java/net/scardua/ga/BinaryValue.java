@@ -20,10 +20,6 @@ public class BinaryValue extends Value {
         this.value = (value == 0 ? 0 : 1);
     }
 
-    public int get() {
-        return this.value;
-    }
-
     public void mutate() {
         this.value = 1 - this.value;
     }
