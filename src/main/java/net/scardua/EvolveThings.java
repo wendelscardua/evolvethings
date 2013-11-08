@@ -1,5 +1,6 @@
 package net.scardua;
 
+import net.scardua.ga.Chromosome;
 import net.scardua.ga.Gene;
 import net.scardua.ga.GeneticAlgorithm;
 
@@ -24,14 +25,14 @@ public class EvolveThings
                 ga.stepOver();
             }
             // we will make random matches between the individuals:
-            ArrayList<GeneticAlgorithm.Chromosome> individuals = ga.getChromosomes();
+            ArrayList<Chromosome> individuals = ga.getChromosomes();
             int[] RGB = new int[individuals.size()];
             int[] K = new int[individuals.size()];
             int[] HP = new int[individuals.size()];
             int[] P = new int[individuals.size()];
             int[] R = new int[individuals.size()];
             for(int i = 0; i < individuals.size(); i++) {
-                GeneticAlgorithm.Chromosome chromosome = individuals.get(i);
+                Chromosome chromosome = individuals.get(i);
                 K[i] = 0;
                 HP[i] = (int) (30 * chromosome.getGeneValue(Gene.LIFE).getFloatValue() + 30);
                 P[i] = (int) (5 * chromosome.getGeneValue(Gene.POWER).getFloatValue() + 5);
@@ -97,21 +98,21 @@ public class EvolveThings
                 }
             }
             for(int i = 0; i < individuals.size(); i++) {
-                GeneticAlgorithm.Chromosome chromosome = individuals.get(i);
+                Chromosome chromosome = individuals.get(i);
                 chromosome.setFitness(K[i] * 100 + HP[i] * 10);
             }
         }
-        ArrayList<GeneticAlgorithm.Chromosome> chromosomes = ga.getChromosomes();
-        Collections.sort(chromosomes, new Comparator<GeneticAlgorithm.Chromosome>() {
+        ArrayList<Chromosome> chromosomes = ga.getChromosomes();
+        Collections.sort(chromosomes, new Comparator<Chromosome>() {
             @Override
-            public int compare(GeneticAlgorithm.Chromosome left, GeneticAlgorithm.Chromosome right) {
+            public int compare(Chromosome left, Chromosome right) {
                 double delta = right.getFitness() - left.getFitness();
                 if (delta > 0) return 1;
                 else if (delta < 0) return -1;
                 else return 0;
             }
         });
-        for(GeneticAlgorithm.Chromosome chromosome : chromosomes) {
+        for(Chromosome chromosome : chromosomes) {
             System.err.println(chromosome);
         }
     }
