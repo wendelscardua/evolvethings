@@ -4,6 +4,8 @@ import net.scardua.ga.Gene;
 import net.scardua.ga.GeneticAlgorithm;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Random;
 
 /**
@@ -14,9 +16,10 @@ public class EvolveThings
 {
     public static void main( String[] args )
     {
-        GeneticAlgorithm ga = new GeneticAlgorithm(20);
+        int maxSteps = 1000;
+        GeneticAlgorithm ga = new GeneticAlgorithm(100);
         Random random = new Random();
-        for(int steps = 0; steps <= 2000; steps++) {
+        for(int steps = 0; steps <= maxSteps; steps++) {
             if (steps > 0) {
                 ga.stepOver();
             }
@@ -39,30 +42,53 @@ public class EvolveThings
                 HP[i] -= (P[i] + R[i]);
             }
 
-            for(int time = 0; time < 2000; time++) {
-                int leftPos = random.nextInt(individuals.size());
-                int rightPos = random.nextInt(individuals.size());
+            // red has first strike (kinda), green has trample (somewhat), blue has lifelink (ok)
 
-                if (HP[leftPos] <= 0 || HP[rightPos] <= 0)
-                    continue;
+            for(int time = 0; time < 10000; time++) {
+                int alive = 0;
+                for(int i = 0; i < individuals.size(); i++) {
+                    if (HP[i] > 0) alive++;
+                }
+
+                if (alive < 2) {
+                    System.err.println("Alive = " + alive + ", s = " + steps + " t = " + time);
+                    break;
+                }
+
+                int leftPos = random.nextInt(alive) + 1;
+                int rightPos = random.nextInt(alive - 1) + 1;
+
+                for(int i = 0; i < individuals.size(); i++) {
+                    if (HP[i] > 0) leftPos--;
+                    if (leftPos <= 0) leftPos = i; break;
+                }
+
+                for(int i = 0; i < individuals.size(); i++) {
+                    if (HP[i] > 0 && i != leftPos) rightPos--;
+                    if (rightPos <= 0) rightPos = i; break;
+                }
 
                 if (leftPos != rightPos) {
                     if (RGB[leftPos] == RGB[rightPos]) {
                     } else {
                         if (P[leftPos] > R[rightPos]) {
-                            HP[rightPos] -= P[leftPos] - R[rightPos];
-                            if (RGB[leftPos] == 1) HP[leftPos] += P[leftPos];
+                            if ((RGB[leftPos] & 2) != 0)
+                                HP[rightPos] -= P[leftPos] - R[rightPos];
+                            else if (R[rightPos] == 0) {
+                                HP[rightPos] -= P[leftPos];
+                            }
+                            if ((RGB[leftPos] & 1) != 0) HP[leftPos] += P[leftPos];
                             if (HP[rightPos] <= 0) K[leftPos]++;
                             R[rightPos] = 0;
                         } else {
                             R[rightPos] -= P[leftPos];
                         }
 
-                        if ((RGB[leftPos] == 4) && (R[rightPos] <= 0)) continue;
+                        if ((RGB[leftPos] & 4) != 0 && (RGB[rightPos] & 4) == 0 && (R[rightPos] <= 0)) continue;
 
                         if (P[rightPos] > R[leftPos]) {
                             HP[leftPos] -= P[rightPos] - R[leftPos];
-                            if (RGB[rightPos] == 2) HP[rightPos] += P[rightPos];
+                            if ((RGB[rightPos] & 1) != 0) HP[rightPos] += P[rightPos];
                             if (HP[leftPos] <= 0) K[rightPos]++;
                         } else {
                             R[leftPos] -= P[rightPos];
@@ -70,12 +96,23 @@ public class EvolveThings
                     }
                 }
             }
-            System.err.println("========[" + steps + "]========");
             for(int i = 0; i < individuals.size(); i++) {
                 GeneticAlgorithm.Chromosome chromosome = individuals.get(i);
-                chromosome.setFitness(K[i] * 100);
-                System.err.println(chromosome.toString());
+                chromosome.setFitness(K[i] * 100 + HP[i] * 10);
             }
+        }
+        ArrayList<GeneticAlgorithm.Chromosome> chromosomes = ga.getChromosomes();
+        Collections.sort(chromosomes, new Comparator<GeneticAlgorithm.Chromosome>() {
+            @Override
+            public int compare(GeneticAlgorithm.Chromosome left, GeneticAlgorithm.Chromosome right) {
+                double delta = right.getFitness() - left.getFitness();
+                if (delta > 0) return 1;
+                else if (delta < 0) return -1;
+                else return 0;
+            }
+        });
+        for(GeneticAlgorithm.Chromosome chromosome : chromosomes) {
+            System.err.println(chromosome);
         }
     }
 }
