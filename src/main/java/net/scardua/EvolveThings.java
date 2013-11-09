@@ -111,16 +111,8 @@ public class EvolveThings
                 chromosome.setFitness(K[i] * 100 + 1);
             }
         }
+        ga.sortChromosomes();
         ArrayList<Chromosome> chromosomes = ga.getChromosomes();
-        Collections.sort(chromosomes, new Comparator<Chromosome>() {
-            @Override
-            public int compare(Chromosome left, Chromosome right) {
-                double delta = right.getFitness() - left.getFitness();
-                if (delta > 0) return 1;
-                else if (delta < 0) return -1;
-                else return 0;
-            }
-        });
         for(Chromosome chromosome : chromosomes) {
             System.err.println(chromosome);
         }
