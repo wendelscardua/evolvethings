@@ -30,11 +30,6 @@ public class BinaryValue extends Value {
     }
 
     @Override
-    public int getIntValue() {
-        return value;
-    }
-
-    @Override
     public double getFloatValue() {
         return (double) value;
     }
