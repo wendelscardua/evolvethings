@@ -13,7 +13,7 @@ public class FloatValue extends Value {
     private double value;
 
     public FloatValue() {
-        this(new Random().nextDouble() * 2 - 1);
+        this(new Random().nextDouble());
     }
 
     public FloatValue(double value) {
@@ -21,27 +21,14 @@ public class FloatValue extends Value {
     }
 
     public void mutate() {
-        this.value += new Random().nextGaussian();
-        if (this.value > 1.0) this.value = 1.0;
-        if (this.value < -1.0) this.value = -1.0;
+        this.value = new Random().nextDouble();
     }
 
     @Override
     public int getBinaryValue() {
-        if (this.value > 0) {
+        if (this.value > 0.5) {
             return 1;
         }  else {
-            return 0;
-        }
-    }
-
-    @Override
-    public int getIntValue() {
-        if (this.value < 0) {
-            return -1;
-        } else if (this.value > 0) {
-            return 1;
-        } else {
             return 0;
         }
     }

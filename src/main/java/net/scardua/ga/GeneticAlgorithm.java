@@ -1,6 +1,8 @@
 package net.scardua.ga;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Random;
 
 /**
@@ -67,4 +69,15 @@ public class GeneticAlgorithm {
         return chromosomes.get(0); // to avoid warnings
     }
 
+    public void sortChromosomes() {
+        Collections.sort(this.chromosomes, new Comparator<Chromosome>() {
+            @Override
+            public int compare(Chromosome left, Chromosome right) {
+                double delta = right.getFitness() - left.getFitness();
+                if (delta > 0) return 1;
+                else if (delta < 0) return -1;
+                else return 0;
+            }
+        });
+    }
 }

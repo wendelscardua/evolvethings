@@ -10,6 +10,5 @@ package net.scardua.ga;
 public abstract class Value {
     public abstract void mutate();
     public abstract int getBinaryValue();
-    public abstract int getIntValue();
     public abstract double getFloatValue();
 }
