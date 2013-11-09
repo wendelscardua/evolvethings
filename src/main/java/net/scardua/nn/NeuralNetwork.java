@@ -1,7 +1,6 @@
 package net.scardua.nn;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * Created with IntelliJ IDEA.
@@ -171,29 +170,4 @@ public class NeuralNetwork {
         return ( 1 / ( 1 + Math.exp(-netInput / response)));
     }
 
-    public static class Neuron {
-        private final int numInputs;
-        private final double[] weights;
-
-        public Neuron(int numInputs) {
-            Random random = new Random();
-            this.numInputs = numInputs;
-            this.weights = new double[numInputs + 1];
-            for(int i = 0; i < numInputs + 1; i++)
-                this.weights[i] = random.nextDouble() - random.nextDouble();
-        }
-    }
-
-    public static class NeuronLayer {
-        private final int numNeurons;
-        private final Neuron[] neurons;
-
-        public NeuronLayer(int numNeurons, int inputsPerNeuron) {
-            this.numNeurons = numNeurons;
-            this.neurons = new Neuron[numNeurons];
-            for(int i = 0; i < numNeurons; i++) {
-                this.neurons[i] = new Neuron(inputsPerNeuron);
-            }
-        }
-    }
 }
