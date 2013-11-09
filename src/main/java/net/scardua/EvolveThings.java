@@ -44,9 +44,9 @@ public class EvolveThings
             for(int i = 0; i < individuals.size(); i++) {
                 Chromosome chromosome = individuals.get(i);
                 K[i] = 0;
-                HP[i] = (int) (30 * chromosome.getGeneValue(MyGenes.LIFE.name()).getFloatValue() + 30);
-                P[i] = (int) (5 * chromosome.getGeneValue(MyGenes.POWER.name()).getFloatValue() + 5);
-                R[i] = (int) (5 * chromosome.getGeneValue(MyGenes.RESISTANCE.name()).getFloatValue() + 5);
+                HP[i] = (int) (30 * chromosome.getGeneValue(MyGenes.LIFE.name()).getFloatValue());
+                P[i] = (int) (5 * chromosome.getGeneValue(MyGenes.POWER.name()).getFloatValue());
+                R[i] = (int) (5 * chromosome.getGeneValue(MyGenes.RESISTANCE.name()).getFloatValue());
                 RGB[i] = chromosome.getGeneValue(MyGenes.RED.name()).getBinaryValue() * 4 +
                          chromosome.getGeneValue(MyGenes.GREEN.name()).getBinaryValue() * 2 +
                          chromosome.getGeneValue(MyGenes.BLUE.name()).getBinaryValue();
@@ -108,7 +108,7 @@ public class EvolveThings
             }
             for(int i = 0; i < individuals.size(); i++) {
                 Chromosome chromosome = individuals.get(i);
-                chromosome.setFitness(K[i] * 100);
+                chromosome.setFitness(K[i] * 100 + 1);
             }
         }
         ArrayList<Chromosome> chromosomes = ga.getChromosomes();
