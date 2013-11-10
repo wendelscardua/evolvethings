@@ -10,6 +10,7 @@ import java.util.Random;
 * To change this template use File | Settings | File Templates.
 */
 public class FloatValue extends Value {
+    private static final double MAX_PERTURBATION = 0.3;
     private double value;
 
     public FloatValue() {
@@ -20,13 +21,13 @@ public class FloatValue extends Value {
         this.value = value;
     }
 
-    public void mutate() {
-        this.value = new Random().nextDouble();
+    public void mutate() {        
+        this.value = this.value + (Math.random() - Math.random()) * MAX_PERTURBATION;
     }
 
     @Override
     public int getBinaryValue() {
-        if (this.value > 0.5) {
+        if (this.value > 0) {
             return 1;
         }  else {
             return 0;
