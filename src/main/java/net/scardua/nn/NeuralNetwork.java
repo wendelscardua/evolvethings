@@ -18,6 +18,9 @@ public class NeuralNetwork {
     private static final double dBias = -1;
     private static final double dActivationResponse = 1;
 
+    private double[] tempInputVector;
+    private double[] tempOutputVector;
+
     public NeuralNetwork(int numInputs, int numOutputs, int numHiddenLayers, int numNeuronsPerHiddenLayer) {
         this.numInputs = numInputs;
         this.numOutputs = numOutputs;
@@ -46,6 +49,8 @@ public class NeuralNetwork {
             //create output layer
             this.layers.add(new NeuronLayer(this.numOutputs, this.numInputs));
         }
+        this.tempInputVector = new double[Math.max(Math.max(numInputs, numOutputs), numNeuronsPerHiddenLayer) + 1];
+        this.tempOutputVector = new double[Math.max(Math.max(numInputs, numOutputs), numNeuronsPerHiddenLayer) + 1];
     }
 
     public ArrayList<Double> getWeights() {
@@ -120,19 +125,25 @@ public class NeuralNetwork {
             return null;
         }
 
-        ArrayList<Double> output = null;
+        for(int i = 0; i < input.size(); i++) {
+            tempInputVector[i] = input.get(i);
+        }
+
+        int outPos = 0;
 
         //For each layer....
         for (int i=0; i<numHiddenLayers + 1; ++i)
         {
             if ( i > 0 )
             {
-                input = output;
+                double[] temp = tempInputVector;
+                tempInputVector = tempOutputVector;
+                tempOutputVector = temp;
             }
 
-            output = new ArrayList<Double>();
-
             int cWeight = 0;
+
+            outPos = 0;
 
             //for each neuron sum the (inputs * corresponding weights).Throw
             //the total at our sigmoid function to get the output.
@@ -147,7 +158,7 @@ public class NeuralNetwork {
                 {
                     //sum the weights x inputs
                     netInput += layers.get(i).neurons[j].weights[k] *
-                            input.get(cWeight++);
+                            tempInputVector[cWeight++];
                 }
 
                 //add in the bias
@@ -156,13 +167,15 @@ public class NeuralNetwork {
                 //we can store the outputs from each layer as we generate them.
                 //The combined activation is first filtered through the sigmoid
                 //function
-                output.add(sigmoid(netInput,
-                        dActivationResponse));
+                tempOutputVector[outPos++] = sigmoid(netInput, dActivationResponse);
 
                 cWeight = 0;
             }
         }
-
+        ArrayList<Double> output = new ArrayList<Double>();
+        for(int i = 0; i < outPos; i++) {
+            output.add(tempOutputVector[i]);
+        }
         return output;
     }
 
