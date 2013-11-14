@@ -51,17 +51,13 @@ public class GeneticAlgorithm {
     }
 
     private Chromosome getChromosomeByRoulette() {
-        double worstFit = Double.POSITIVE_INFINITY;
-        for(Chromosome chromosome : chromosomes) {
-            if (chromosome.fitness < worstFit) worstFit = chromosome.fitness;
-        }
         double totalFit = 0;
         for(Chromosome chromosome : chromosomes) {
-            totalFit += chromosome.fitness - worstFit;
+            totalFit += chromosome.fitness;
         }
         double slice = new Random().nextDouble() * totalFit;
         for(Chromosome chromosome : chromosomes) {
-            slice -= (chromosome.fitness - worstFit);
+            slice -= chromosome.fitness;
             if (slice <= 0.0) {
                 return new Chromosome(chromosome);
             }

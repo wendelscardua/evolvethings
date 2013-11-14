@@ -39,11 +39,11 @@ public class Chromosome {
         }
     }
 
-    void setGenome(ArrayList<Value> newGenome) {
+    public void setGenome(ArrayList<Value> newGenome) {
         this.genome = newGenome;
     }
 
-    ArrayList<Value> getGenome() {
+    public ArrayList<Value> getGenome() {
         return this.genome;
     }
 
@@ -51,8 +51,16 @@ public class Chromosome {
         return this.getGeneValue(Genes.getInstance().getGene(geneName));
     }
 
-    Value getGeneValue(Genes.Gene gene) {
+    public Value getGeneValue(Genes.Gene gene) {
         return this.genome.get(gene.position);
+    }
+
+    public void setGeneValue(String geneName, Value value) {
+        setGeneValue(Genes.getInstance().getGene(geneName), value);
+    }
+
+    private void setGeneValue(Genes.Gene gene, Value value) {
+        this.genome.set(gene.position, value);
     }
 
     public double getFitness() {
