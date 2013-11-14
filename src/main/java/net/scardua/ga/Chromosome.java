@@ -59,7 +59,7 @@ public class Chromosome {
         setGeneValue(Genes.getInstance().getGene(geneName), value);
     }
 
-    private void setGeneValue(Genes.Gene gene, Value value) {
+    public void setGeneValue(Genes.Gene gene, Value value) {
         this.genome.set(gene.position, value);
     }
 
