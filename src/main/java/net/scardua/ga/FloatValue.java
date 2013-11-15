@@ -12,9 +12,10 @@ import java.util.Random;
 public class FloatValue extends Value {
     private static final double MAX_PERTURBATION = 0.3;
     private double value;
+    private static final Random random = new Random();
 
     public FloatValue() {
-        this(new Random().nextDouble());
+        this(2 * (random.nextDouble() - random.nextDouble()));
     }
 
     public FloatValue(double value) {
@@ -22,7 +23,7 @@ public class FloatValue extends Value {
     }
 
     public void mutate() {        
-        this.value = this.value + (Math.random() - Math.random()) * MAX_PERTURBATION;
+        this.value = this.value + random.nextGaussian();
     }
 
     @Override

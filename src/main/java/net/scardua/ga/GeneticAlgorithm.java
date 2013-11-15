@@ -17,6 +17,9 @@ public class GeneticAlgorithm {
     private ArrayList<Chromosome> chromosomes;
     public static final double mutationChance = 0.05;
     private static final double crossoverChance = 0.7;
+    private int eliteChromosomes = 0;
+
+    private static final Random random = new Random();
 
     public GeneticAlgorithm(int numChromosomes) {
         this.numChromosomes = numChromosomes;
@@ -30,9 +33,15 @@ public class GeneticAlgorithm {
         return this.chromosomes;
     }
 
+    public void setEliteChromosomes(int eliteChromosomes) {
+        this.eliteChromosomes = eliteChromosomes;
+    }
+
     public void stepOver() {
         ArrayList<Chromosome> nextGeneration = new ArrayList<Chromosome>();
-        Random random = new Random();
+        if (this.eliteChromosomes > 0) {
+            sortChromosomes();
+        }
         while(nextGeneration.size() < numChromosomes) {
             Chromosome left = getChromosomeByRoulette();
             Chromosome right = getChromosomeByRoulette();
@@ -52,10 +61,12 @@ public class GeneticAlgorithm {
 
     private Chromosome getChromosomeByRoulette() {
         double totalFit = 0;
+        int count = 0;
         for(Chromosome chromosome : chromosomes) {
+            if (this.eliteChromosomes > 0 && ++count > this.eliteChromosomes) break;
             totalFit += chromosome.fitness;
         }
-        double slice = new Random().nextDouble() * totalFit;
+        double slice = random.nextDouble() * totalFit;
         for(Chromosome chromosome : chromosomes) {
             slice -= chromosome.fitness;
             if (slice <= 0.0) {
