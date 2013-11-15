@@ -22,4 +22,10 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+
+  <scm>
+    <connection>scm:git:git://github.com/wendelscardua/evolvethings.git</connection>
+    <developerConnection>scm:git:git@github.com:wendelscardua/evolvethings.git</developerConnection>
+    <url>http://github.com/wendelscardua/evolvethings</url>
+  </scm>
 </project>
